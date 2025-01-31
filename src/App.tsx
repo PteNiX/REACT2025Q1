@@ -3,6 +3,7 @@ import TopControls from './components/TopControls';
 import Results from './components/Results';
 import { fetchPokemon } from '../services/pokemonService';
 import './App.css';
+import ErrorBoundary from './components/ErrorBoundary';
 
 interface Result {
   name: string;
@@ -46,10 +47,12 @@ class App extends Component<object, State> {
 
   render() {
     return (
-      <div className="app-container p-6">
-        <TopControls onSearch={this.handleSearch} />
-        <Results results={this.state.results} />
-      </div>
+      <ErrorBoundary>
+        <div className="app-container p-6">
+          <TopControls onSearch={this.handleSearch} />
+          <Results results={this.state.results} />
+        </div>
+      </ErrorBoundary>
     );
   }
 }
