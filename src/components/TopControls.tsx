@@ -1,33 +1,66 @@
-import { useState } from 'react';
+import React, { Component } from 'react';
+
 interface TopControlsProps {
   onSearch: (query: string) => void;
 }
-const TopControls: React.FC<TopControlsProps> = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const handleSearch = () => {
-    if (onSearch) {
+interface TopControlsState {
+  searchTerm: string;
+}
+
+class TopControls extends Component<TopControlsProps, TopControlsState> {
+  constructor(props: TopControlsProps) {
+    super(props);
+    this.state = {
+      searchTerm: '',
+    };
+  }
+
+  handleSearch = () => {
+    const { searchTerm } = this.state;
+    const { onSearch } = this.props;
+    if (searchTerm.trim()) {
       onSearch(searchTerm);
     }
   };
 
-  return (
-    <div className="flex justify-between items-center p-4 bg-gray-100 rounded-2xl shadow-md fixed top-0 left-0 w-full z-10">
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-2/3 p-2 border border-gray-300 rounded-lg"
-      />
-      <button
-        onClick={handleSearch}
-        className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-      >
-        Search
-      </button>
-    </div>
-  );
-};
+  handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      this.handleSearch();
+    }
+  };
+
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ searchTerm: e.target.value });
+  };
+
+  render() {
+    const { searchTerm } = this.state;
+
+    return (
+      <div className="flex justify-between items-center p-4 bg-gray-100 rounded-2xl shadow-md fixed top-0 left-0 w-full z-10">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          className="w-2/3 p-2 border border-gray-300 rounded-lg"
+        />
+        <button
+          onClick={this.handleSearch}
+          disabled={!searchTerm.trim()}
+          className={`ml-4 px-4 py-2 rounded-lg ${
+            searchTerm.trim()
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          Search
+        </button>
+      </div>
+    );
+  }
+}
 
 export default TopControls;
