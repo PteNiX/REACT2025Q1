@@ -12,16 +12,14 @@ class TopControls extends Component<TopControlsProps, TopControlsState> {
   constructor(props: TopControlsProps) {
     super(props);
     this.state = {
-      searchTerm: '',
+      searchTerm: localStorage.getItem('searchTerm') || '',
     };
   }
 
   handleSearch = () => {
     const { searchTerm } = this.state;
-    const { onSearch } = this.props;
-    if (searchTerm.trim()) {
-      onSearch(searchTerm);
-    }
+    this.props.onSearch(searchTerm);
+    localStorage.setItem('searchTerm', searchTerm);
   };
 
   handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,22 +36,21 @@ class TopControls extends Component<TopControlsProps, TopControlsState> {
     const { searchTerm } = this.state;
 
     return (
-      <div className="flex justify-between items-center p-4 bg-gray-100 rounded-2xl shadow-md fixed top-0 left-0 w-full z-10">
+      <div className="flex justify-between items-center p-4 bg-gray-100 rounded-2xl shadow-md  top-0 left-0 z-10">
         <input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          className="w-2/3 p-2 border border-gray-300 rounded-lg"
+          className="w-2/3 p-2 border border-gray-300 rounded-lg bg-blue-500"
         />
         <button
           onClick={this.handleSearch}
-          disabled={!searchTerm.trim()}
           className={`ml-4 px-4 py-2 rounded-lg ${
             searchTerm.trim()
               ? 'bg-blue-500 text-white'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-gray-300 text-gray-500'
           }`}
         >
           Search
