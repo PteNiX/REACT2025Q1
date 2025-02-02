@@ -5,27 +5,22 @@ import { searchPokemon } from '../services/pokemonService';
 import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import './styles/tailwind.css';
+import { AppState } from './interfaces/AppState';
 
-interface Result {
-  name: string;
-  description: string;
-}
-
-interface State {
-  results: Result[];
-  loading: boolean;
-  errorMessage: string | null;
-}
-
-class App extends Component<object, State> {
+class App extends Component<object, AppState> {
   constructor(props: object) {
     super(props);
     this.state = {
       results: [],
       loading: false,
       errorMessage: null,
+      errorTriggered: false,
     };
   }
+
+  handleThrowError = () => {
+    this.setState({ errorTriggered: true });
+  };
 
   handleSearch = async (query: string) => {
     this.setState({ loading: true, errorMessage: null });
@@ -64,10 +59,15 @@ class App extends Component<object, State> {
   };
 
   render() {
+    if (this.state.errorTriggered) {
+      throw new Error('This is a test error!');
+    }
+
     return (
       <ErrorBoundary>
         <div className="app-container p-6">
           <TopControls onSearch={this.handleSearch} />
+
           {this.state.loading && (
             <p className="text-blue-500 mt-4">Loading...</p>
           )}
@@ -75,6 +75,12 @@ class App extends Component<object, State> {
             <p className="text-red-500 mt-4">{this.state.errorMessage}</p>
           )}
           <Results results={this.state.results} />
+          <button
+            className="bg-red-500 text-white p-2 rounded mt-4"
+            onClick={this.handleThrowError}
+          >
+            Error Button
+          </button>
         </div>
       </ErrorBoundary>
     );

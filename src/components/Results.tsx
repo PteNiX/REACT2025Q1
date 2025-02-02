@@ -1,13 +1,5 @@
 import { Component } from 'react';
-
-interface Result {
-  name: string;
-  description: string;
-}
-
-interface ResultsProps {
-  results: Result[];
-}
+import { ResultsProps } from '../interfaces/ResultsPropsState';
 
 class Results extends Component<ResultsProps> {
   render() {

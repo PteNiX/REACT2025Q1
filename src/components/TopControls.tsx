@@ -1,12 +1,6 @@
 import { Component } from 'react';
-
-interface TopControlsProps {
-  onSearch: (query: string) => void;
-}
-
-interface TopControlsState {
-  searchTerm: string;
-}
+import { TopControlsState } from '../interfaces/TopControlsState';
+import { TopControlsProps } from '../interfaces/TopControlsPropsState';
 
 class TopControls extends Component<TopControlsProps, TopControlsState> {
   constructor(props: TopControlsProps) {
