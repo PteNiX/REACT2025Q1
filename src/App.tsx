@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import TopControls from './components/TopControls';
 import Results from './components/Results';
-import { searchPokemon } from '../services/pokemonService';
+import { searchPokemon } from './services/pokemonService';
 import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import './styles/tailwind.css';
