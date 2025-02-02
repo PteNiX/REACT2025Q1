@@ -37,7 +37,7 @@ class TopControls extends Component<TopControlsProps, TopControlsState> {
           value={searchTerm}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          className="w-2/3 p-2 border border-gray-300 rounded-lg bg-blue-500"
+          className="w-2/3 p-2 border border-gray-300 rounded-lg bg-blue-500 text-white"
         />
         <button
           onClick={this.handleSearch}
